@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>Here are the results of your search</h2>
+{% for post in queryset %}
+<a href="{{ post.get_absolute_url }}">{{ post.title }}</a><br />
+{% endfor %}
+
+{% include 'sidebar.html' with most_recent=most_recent category_count=category_count %}
+
+{% endblock %}

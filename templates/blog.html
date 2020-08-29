@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blog{% endblock %}
+
+{% block content %}
+
+<div class="container">
+<div class="row">
+<!-- Latest Posts -->
+<main class="posts-listing col-lg-8"> 
+<div class="container">
+<div class="row">
+<!-- post -->
+{% for post in queryset %}
+<div class="post col-xl-6">
+<div class="post-thumbnail">
+<a href="{{ post.get_absolute_url }}">
+<img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" class="img-fluid" />
+</a>
+</div>
+<div class="post-details">
+<div class="post-meta d-flex justify-content-between">
+<a href="{{ post.get_absolute_url }}">
+<h3 class="h4">{{ post.title }}</h3>
+</a>
+<div class="date meta-last">{{ post.timestamp|date:"F jS, Y" }}</div>
+<div class="category">
+<span>Categories: </span>
+{{ post.categories.all|join:", " }}
+</div>
+</div>
+<p class="text-muted">{{ post.summary }}</p>
+
+<footer class="post-footer d-flex align-items-center">
+<a href="#" class="author d-flex align-items-center flex-wrap">
+<div class="avatar">
+<img src="{{ post.author.profile_picture.url }}" alt="{{ post.author.user.username }}'s avatar" class="img-fluid" /></div>
+<div class="title"><span>{{ post.author.user.username }}</span></div>
+</a>
+<div class="date">
+<i class="icon-clock"></i> 
+{{ post.timestamp|timesince|upper }} ago
+</div>
+<div class="comments meta-last">
+<i class="icon-comment"></i> 
+{{ post.comment_count }}
+</div>
+</footer>
+</div>
+</div>
+{% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+<ul class="pagination pagination-template d-flex justify-content-center">
+{% if page_obj.has_previous %}
+<li class="page-item"><a href="?{{ page_request_var }}={{ page_obj.previous_page_number }}" class="page-link">{{ page_obj.previous_page_number }}</a> </li>
+{% endif %}
+<li class="page-item"><span class="page-link active">{{ page_obj.number }}</span></li>
+{% if page_obj.has_next %}
+<li class="page-item"> <a href="?{{ page_request_var }}={{ page_obj.next_page_number }}" class="page-link">{{ page_obj.next_page_number }}</a></li>
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+
+</div>
+</main>
+
+{% include 'sidebar.html' with most_recent=most_recent category_count=category_count %}
+
+</div>
+</div>
+
+{% endblock content %}
