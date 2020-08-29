@@ -1,6 +1,7 @@
 import json
 from asgiref.sync import async_to_sync as AtoS
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.contrib.staticfiles.templatetags.static import static
 from playsound import playsound as ps
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -28,4 +29,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
 		# Send message to WebSocket
 		await self.send(text_data=json.dumps({'message': message}))
 		# play a sound for a message
-		ps('c:/windows/media/tada.wav')
+		ps(static('chat_message.wav'))
