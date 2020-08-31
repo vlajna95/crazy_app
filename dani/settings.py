@@ -14,7 +14,7 @@ SECRET_KEY = 'v2@7(6779rg8qk@b$-e=yvjp7aqr_vsbq$_zo)p*#8-%1n*1si'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'dolanescu.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', 'dolanescu.pythonanywhere.com', '37.233.101.86', 'crazy.radiodani.stream']
 
 
 # Application definition
@@ -185,13 +185,15 @@ SITE_ID = 1
 
 # channels
 
+USE_WEBSOCKETS = True
+
 ASGI_APPLICATION = "dani.routing.application"
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379), ('localhost', 6379)],
+            "hosts": [('37.233.101.86', 6379)],
         },
     },
 }

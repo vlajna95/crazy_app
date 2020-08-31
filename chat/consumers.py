@@ -1,8 +1,7 @@
 import json
 from asgiref.sync import async_to_sync as AtoS
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.contrib.staticfiles.templatetags.static import static
-from playsound import playsound as ps
+from django.templatetags.static import static
 
 class ChatConsumer(AsyncWebsocketConsumer):
 	async def connect(self):
@@ -21,12 +20,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
 		text_data_json = json.loads(text_data)
 		message = text_data_json['message']
 		# Send message to room group
-		await self.channel_layer.group_send(self.room_group_name, {'type': 'chat_message', 'message': message})
+		await self.channel_layer.group_send(self.room_group_name, {'type': 'chat_message', 'user': text_data_json['user'], 'message': message})
 
 	# Receive message from room group
 	async def chat_message(self, event):
 		message = event['message']
 		# Send message to WebSocket
-		await self.send(text_data=json.dumps({'message': message}))
-		# play a sound for a message
-		ps(static('chat_message.wav'))
+		await self.send(text_data=json.dumps({'user': event['user'], 'message': message}))
+

@@ -3,4 +3,6 @@ django-allauth
 django-channels
 channels-redis
 django-crispy-forms
-playsound
+pillow
+# packages not directly related to Django
+xhtml2pdf
